@@ -339,14 +339,21 @@ body.dark-mode .social-badge {
 .search-container {
     display: flex;
     justify-content: center;
+    gap: 10px;
     margin-bottom: 25px;
     padding: 0 15px;
+    flex-wrap: wrap; 
 }
 
 .search-box {
     position: relative;
-    width: 100%;
-    max-width: 500px;
+    flex-grow: 1;
+    max-width: 400px;
+}
+
+.price-box {
+    position: relative;
+    max-width: 150px;
 }
 
 .search-icon {
@@ -370,15 +377,36 @@ body.dark-mode .social-badge {
     box-sizing: border-box;
 }
 
-#buscador:focus {
+#filtro-precio {
+    width: 100%;
+    padding: 15px 15px;
+    border-radius: 50px;
+    border: 1px solid #e2e8f0;
+    font-size: 16px;
+    background-color: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    outline: none;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+#buscador:focus, #filtro-precio:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.15);
 }
 
-body.dark-mode #buscador {
+body.dark-mode #buscador, 
+body.dark-mode #filtro-precio {
     background-color: #1e293b;
     border-color: #334155;
     color: white;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
 }
 
 .skeleton-card {
@@ -424,17 +452,18 @@ body.dark-mode .skeleton-card::after {
     display: none;
     position: fixed;
     z-index: 2000;
-    padding-top: 50px;
+    padding-top: 0;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.95);
     backdrop-filter: blur(5px);
-    flex-direction: column;
+    
+    display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; 
+    
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -443,42 +472,15 @@ body.dark-mode .skeleton-card::after {
     opacity: 1;
 }
 
-.modal-content {
-    margin: 0 auto;
-    display: block;
-    
-    max-width: 95%;
-    max-height: 60vh;
-    width: auto;
-    height: auto;
-    
-    border-radius: 8px;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-    animation: zoomIn 0.3s;
-    object-fit: contain;
-}
-
-#caption {
-    margin: auto;
-    display: block;
-    width: 80%;
-    text-align: center;
-    color: #ccc;
-    padding: 10px 0;
-    font-size: 1.2rem;
-    font-weight: 600;
-}
-
 .modal-close {
     position: absolute;
-    top: 15px;
-    right: 25px;
+    top: 20px;
+    right: 20px;
     color: #f1f1f1;
     font-size: 40px;
     font-weight: bold;
-    transition: 0.3s;
     cursor: pointer;
-    z-index: 2001;
+    z-index: 2005;
     background: rgba(0,0,0,0.5);
     width: 50px;
     height: 50px;
@@ -487,43 +489,137 @@ body.dark-mode .skeleton-card::after {
     align-items: center;
     justify-content: center;
     line-height: 1;
+    transition: 0.3s;
 }
 
-.modal-close:hover,
-.modal-close:focus {
+.modal-close:hover {
     color: var(--primary);
-    text-decoration: none;
-    cursor: pointer;
     background: white;
 }
 
-@keyframes zoomIn {
-    from {transform:scale(0)} 
-    to {transform:scale(1)}
+.modal-inner-content {
+    background: transparent;
+    padding: 10px;
+    
+    width: auto;
+    max-width: 95%; 
+    height: auto;
+    max-height: 85vh; 
+    
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    
+    overflow: hidden;
 }
 
+.layout-simple {
+    flex-direction: column;
+    background: transparent;
+}
+
+.layout-simple img {
+    flex: 1 1 auto;
+    min-height: 0;
+    
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.layout-simple div,
+.layout-simple button {
+    flex-shrink: 0;
+}
+
+.layout-split {
+    flex-direction: row; 
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    width: 900px;
+    max-height: 80vh;
+}
+
+.dark-mode .layout-split {
+    background-color: #1e293b;
+}
+
+.layout-split img {
+    flex: 1;
+    width: 50%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.info-container {
+    flex: 1;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 20px;
+    overflow-y: auto;
+    max-height: 100%;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 5px;
+    line-height: 1.2;
+    color: white; 
+}
+
+.layout-split .modal-title {
+    color: var(--text-dark);
+    font-size: 1.8rem;
+}
+
+.modal-price {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+.modal-description {
+    white-space: pre-wrap;
+    line-height: 1.5;
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.dark-mode .modal-description { color: #cbd5e1; }
+
 .action-btn {
-    margin-top: 15px;
     padding: 10px 20px;
     border: none;
-    border-radius: 20px;
+    border-radius: 25px;
     cursor: pointer;
     font-weight: 600;
-    display: flex;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-    z-index: 2002;
+    font-size: 0.95rem;
+    margin-top: 5px; 
+    white-space: nowrap;
 }
 
 .share-btn {
     background-color: #2563eb;
     color: white;
-    transition: background 0.3s;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
 }
 
-.share-btn:hover { 
-    background-color: #1d4ed8; 
-}
+.share-btn:hover { background-color: #1d4ed8; }
 
 #btn-top {
     display: none;
@@ -578,14 +674,40 @@ body.dark-mode .skeleton-card::after {
     .card-img { height: 150px; }
     .card-title { font-size: 0.95rem; }
 
-    .modal-content { 
-        max-height: 55vh;
-        max-width: 90%; 
+    .modal-inner-content {
+        max-height: 90vh; 
+        width: 100%;
     }
+
+    .layout-split {
+        flex-direction: column !important;
+        background: transparent !important;
+        padding: 0;
+    }
+
+    .layout-split img {
+        width: 100%;
+        height: auto;
+        flex: 1 1 auto;
+        min-height: 0;
+        max-height: 50vh;
+    }
+
+    .info-container {
+        width: 100%;
+        flex: 0 0 auto;
+        background: rgba(20, 20, 20, 0.85);
+        border-radius: 15px;
+        padding: 15px;
+        margin-top: 10px;
+        backdrop-filter: blur(5px);
+        max-height: 40vh;
+    }
+
+    .layout-split .modal-title { color: white; font-size: 1.3rem; }
+    .modal-description { color: #ddd; }
     
-    .modal-close { 
-        top: 20px; 
-        right: 20px; 
-        background: rgba(255, 255, 255, 0.2);
+    .modal-close {
+        top: 10px; right: 10px; width: 40px; height: 40px; font-size: 28px;
     }
 }

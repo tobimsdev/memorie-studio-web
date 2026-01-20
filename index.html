@@ -48,6 +48,10 @@
             <span class="search-icon">🔍</span>
             <input type="text" id="buscador" placeholder="¿Qué estás buscando hoy?">
         </div>
+
+        <div class="price-box">
+            <input type="number" id="filtro-precio" placeholder="Precio Máx ($)" min="0">
+        </div>
     </div>
 
     <nav class="filter-nav">
@@ -102,10 +106,8 @@
     <div id="image-modal" class="modal-overlay" onclick="cerrarModal()">
         <span class="modal-close">&times;</span>
         
-        <img class="modal-content" id="img-full">
-        
-        <div id="caption"></div>
-        
+        <div id="modal-inner" class="modal-inner-content">
+            </div>
     </div>
 
     <script src="scripts/main.js"></script>
